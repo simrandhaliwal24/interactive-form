@@ -3,6 +3,7 @@ const jobRoleSection = document.querySelector('#title');
 const designSelectBox = document.querySelector('#design');
 const activities = document.querySelector('.activities');
 const form = document.querySelector('form');
+const payment = document.getElementById('payment');
 
 // focusing on first input field on page load
 const firstInput = document.querySelector('input');
@@ -32,16 +33,19 @@ jobRoleSection.addEventListener('change', (e) => {
 
 /////////////////// T- Shirt Section ///////////////////
 ///////////////////                  ///////////////////
-
+let colorSelectbox = document.getElementById('color');
+if(designSelectBox.value === 'select theme') {
+  let options = '<option value="">< --- Please select a T-shirt theme --- ></option>';
+  colorSelectbox.innerHTML = options;
+}
 designSelectBox.addEventListener('change', (e) => {
-  let colorSelectbox = document.getElementById('color');
   const value = e.target.value;
-  if(value == 'js puns') {
+  if(value === 'js puns') {
     let options = '<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>' +
                   '<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option>' +
                   '<option value="gold">Gold (JS Puns shirt only)</option>';
     colorSelectbox.innerHTML = options;
-  } else if(value == 'heart js') {
+  } else if(value === 'heart js') {
     let options = '<option value="tomato">Tomato (I &#9829; JS shirt only)</option>' +
                   '<option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option>' +
                   '<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option>';
@@ -153,6 +157,11 @@ const paypal = document.getElementById('paypal');
 displayNone(paypal);
 const bitcoin = document.getElementById('bitcoin');
 displayNone(bitcoin);
+if(payment.value === 'credit card') {
+  displayBlock(creditCard);
+  displayNone(paypal);
+  displayNone(bitcoin);
+}
 payment.addEventListener('change', (e) => {
   const target = e.target;
   if(target.value === 'credit card') {
@@ -173,7 +182,6 @@ payment.addEventListener('change', (e) => {
     displayNone(bitcoin);
   }
 });
-
 
 /////////////////// Form Validation Section ////////////
 ///////////////////                  ///////////////////
@@ -248,8 +256,6 @@ form.addEventListener('submit', (e) => {
     const ccnumID = document.getElementById('cc-num');
     const zipID = document.getElementById('zip');
     const cvvID = document.getElementById('cvv');
-    console.log(ccnumID.value);
-    console.log(isNaN(ccnumID.value));
     if ( ccnumID.value === "" || isNaN(ccnumID.value) || ccnumID.value.length > 16 || ccnumID.value.length < 13 ) {
       generateErrorMessage(legendPaymentText, 'Payment Info: (Credit Card field should only accept a number between 13 and 16 digits)', 'red');
     } else if ( zipID.value === "" || isNaN(zipID.value) || zipID.value.length !== 5 ) {
